@@ -1,0 +1,45 @@
+6/8
+需要實作的部分
+1.技能:
+gamebase中使用
+void usingSkill(int teamNumber);
+在這裡面判斷能不能呼叫，並且技能發動的時機是在點擊到角色的時後(轉珠以前)
+
+
+2.Characters
+
+1.視覺提示可以發動技能
+2.在bool Characters::useSkill :實作技能，
+
+auto.h/auto.cpp:
+自動轉珠
+未完成
+
+6/1
+gamebase.cpp
+新增deletRune與相關的stack
+fallingStage處理天降
+
+5/30
+gamebase.cpp
+各個stage中的怪物放進monster
+新增bool:set用來判斷是否在設定頁面
+轉珠條件增加:!set
+
+5/30
+1.runestone:新增isMarking判斷是否要消除
+將gamebase的runemap、stonemap(attributemap)移動到runestone
+轉珠後的位置、成為一組的石頭邏輯
+=================
+runestone.h: 新增座標移動
+int coordinate[2];
+static void swap(Runestone*a, Runestone*b){
+    if(a==nullptr||b==nullptr)return;
+    int tX=a->coordinate[0];
+    int tY=a->coordinate[1];
+    a->coordinate[0]=b->coordinate[0];
+    a->coordinate[1]=b->coordinate[1];
+    b->coordinate[0]=tX;
+    b->coordinate[1]=tY;
+}
+

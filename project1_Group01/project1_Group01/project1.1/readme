@@ -1,0 +1,113 @@
+Supermario
+group 1 member:
+----------------------------------------
+
+#overall description
+----------------------------------------
+
+#class description
+----------------------------------------
+Basic Requirements:
+
+    GameBase:
+    (v)初始畫面1400*620
+    (v)start button開始遊戲，左上的start button關掉遊戲(除錯)
+    (v)按下按鈕後增加出一個7000pixel的橫向卷軸
+    (v)按鈕的大小符合主畫面的位置
+    (v)判斷是否可以過關
+    (v)根據馬力歐的位置捲動圖片 4/21
+    (v)跳躍時上下畫面                     4/21
+    (v )地圖物件:地板、坑洞
+    (v)怪物(毒菇必要，火花&烏龜加分)
+    (v)水管
+    (v)磚塊
+    (v)子彈
+    (v)旗子
+    (v)金幣
+    mario:
+    #特定方向的碰撞
+    Bricks&pipe: (目前都只是擺上去而已)
+    (v) floor
+    (v) stonebrick   石磚
+    (v) waterpipe	 綠色水管
+    ( ) normalbrick 普通磚  (mario 碰撞後消失功能未完成)
+    1.	跟馬力歐的碰撞
+    2.	跟磚塊的碰撞
+    Function:碰撞(物體、物體)
+
+    Stone brick:
+    (v)顯示在畫面
+
+    Broken brick:
+    (v)顯示在畫面
+
+    Box brick:
+    ()每個畫面只有1或2個
+    (v)mario碰到下面隨機生成coin或asuper mushroom或fire flower並轉成stone brick
+    (v)如果mario碰到下面生成coin則移除
+    
+    Water pipe:
+    (v)放在地板上
+
+    Super mushroom:
+    (v) Mario碰到會消失
+    (v)碰到馬力歐hp+1
+    (v)小mario碰到變大mario
+    (v)碰到box brick後才生成
+    (v)生成後一直往右跑，碰到水管、子彈、磚塊時反彈
+    (v)可以踩在所有brick以及水管上，懸空時會往下掉
+
+    Fire flower:
+    (v)碰到box brick後才生成
+    (v)mario碰到後最多有3發子彈
+    (v)mario碰到會消失
+
+    Coin:
+    ()增加分數
+    ()不能生成在地板
+    ()每個畫面最多只有10個
+    ()整個遊戲最多只有40個
+    (v) Mario碰到會消失
+
+    Flag:
+    (v)放在畫面最後的brick上
+    ()碰到後遊戲結束
+    (v)印出x座標
+
+    Toxic mushroom:
+    (v)每個畫面至少有1個
+    (v)生成後一直往右跑，碰到水管、磚塊時反彈
+    (v)可以踩在所有brick以及水管上，懸空時會往下掉
+    (v)碰到後馬力歐生命 -1、大mario變小、不能射子彈直到再次碰到fire flower且2秒內不會再被扣血
+    (v)從上面碰到後被踩扁，過0.5秒後消失，不扣血
+    (v)子彈碰到就消失
+
+    bullet:
+    (v)碰到所有brick和水管後消失
+    (v)點擊滑鼠左鍵發射且飛向左鍵點擊的位置
+
+Bonus:
+    Super star:
+    (v)碰到mario後可以消失
+    (v)碰到以後無敵4秒，期間碰到毒蘑菇和flower不會扣血且毒蘑菇會直接死去
+
+    Turtle:
+    (v)踩到之後會變成龜殼，過3秒後會變回去
+    (v)龜殼狀態下再踩到會在地板上移動，期間碰到怪物可以消滅牠們。
+
+    Flower:
+    (v)每8秒出現在管子上
+    (v)出現在管子上的時候馬力歐碰到後馬力歐生命 -1、大mario變小、不能射子彈直到再次碰到fire flower且2秒內不會再被扣血
+
+
+
+
+Compile
+----------------------------------------
+
+./setup.sh
+
+
+Execute
+
+----------------------------------------

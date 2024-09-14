@@ -1,0 +1,295 @@
+5/3
+更改子彈的飛行速度
+整合碰撞邏輯1個for迴圈
+食人花被子彈打到會死掉
+mario碰到走路烏龜跟碰到毒蘑菇的效果一樣
+
+--------------------------------------------------------------------------------------------------------------------------------
+5/2
+toxic mushroom:修改判斷式line69為mariovertiSpeed>0
+turtle:新增可以被子彈打死，碰撞有點怪怪
+修改重疊音樂，主題曲都在gamebase中播放
+修改掉入洞中的判斷
+修改移動速度
+修正二段跳
+更改gameOverMusic至gamebase中播放
+新增canMoveRight、canMoveLeft邏輯來判斷阻擋
+5/1
+將馬力歐生命與金幣調整到static
+新增地下場景
+修正地下場景卡頓問題，仍有掉幀
+更改物件圖片大小
+changeImage中更改了馬力歐大小
+更改碰撞邏輯至一個for迴圈
+
+按左上角進入地下世界
+設定地下音樂
+碰撞普通專可以撞出一個金幣了
+
+4/30
+新增class:turtle
+踩到之後會變成龜殼，過一段時間(3秒)後會變回去。
+龜殼狀態(shell)下再踩到(spin)會在地板上移動，期間碰到毒蘑菇可以消滅。
+
+新增class: flower
+每隔8秒出現在管子上。在管子上的時候馬力歐碰到的效果和碰到毒蘑菇一樣
+上升和下降的動畫各1.2秒 停留在管子上為2.4秒 不在管子上的時間為3.2秒
+
+gamebase.cpp
+line 345 ~ 349新增生成turtle & flower(測試 旁邊有標圖片大小)
+
+super_mushroom.cpp
+line 76 ~ 107更新對Stone Brick和Normal Brick的碰撞邏輯(碰到在地板的可以反彈)
+
+toxic_mushroom.cpp
+line 97 ~ 127更新對Stone Brick和Normal Brick的碰撞邏輯(碰到在地板的可以反彈)
+--------------------------------------------------------------------------------------------------------------------------------
+
+4/29
+toxic_mushroom.cpp
+line 62: 新增條件:有無敵時間碰到直接執行disappear()
+line 103 ~ 109 & 119 ~ 126: toxic mushroom碰到地板的brick可以反彈
+移除對bullet的碰撞邏輯改放在bullet.cpp
+
+gamebase.cpp
+line 338 ~ 340: 新增生成superstar(測試)
+line 662 ~ 671: 調整flag和flag pole 的位置，另外多加一個stone brick放在flag下面
+
+新增class: SuperStar
+
+mario.h
+line 35: 新增函式bool getstar()，回傳star的值
+line 76: 新增變數time2: mario碰到super star後的無敵時間
+line 77: 新增bool值star: mario是否有拿到super star
+
+mario.cpp
+移除timer
+line 122 ~ 129
+time2歸零時就沒有無敵
+line 347 ~ 355
+關閉碰到flag的反應
+line 357 ~ 414
+更新mario對box brick的碰撞邏輯(其中如果生成coin的話則不生成stone Brick)
+line 416 ~ 454
+新增mario對broken brick的碰撞邏輯: 碰到下面移除broken brick，其他方向與stone brick相同
+line 456 ~ 467
+新增mario對super star的碰撞邏輯: 碰到移除super star且有10秒無敵時間，時間內碰到toxic mushromm時直接執行disappear()
+line 573 ~584
+更新touchtoxic()的運作方式: 偵測碰撞移到toxic_mushroom.cpp，這邊只執行碰到後的反應
+line 574
+新增條件:沒有無敵時間
+line 608 ~ 610
+新增函式bool getstar()，回傳star的值
+
+mario.cpp
+line 44 - 45 生成mario後直接開始 ground Theme音樂
+line 575 - 581 583 - 595 hp == 1之後會出發GameOver音樂
+line 461 - 476           碰到無敵星星會有4秒的音樂，接下來切回主音樂
+gamebase.cpp
+line 761 - 1277 新增地下通道，觸發swithtoundergroundscene function 會進入另一個4個Frame(5600 pixels)的場景，未完成場景。
+
+新增
+mediaplayer.cpp .h 用於觸發音樂及音效
+
+--------------------------------------------------------------------------------------------------------------------------------
+新增get hp、getCoinNumber、incrementCoin函數(mario.cpp)
+碰撞金幣時呼叫getCoin()
+coin.cpp中刪除金幣前先呼叫getCoin
+更改背景寬為7500
+gainbase.cpp:
+1.更改第一列磚塊生成 line292~297
+2.新增顯示coinLabel
+3.新增一個撞擊產生coin的normalbrick，仍有問題
+normalbrick.cpp:
+新增可以判斷有無金幣的函數
+尚未新增生成金幣後的互動。目前一次會升四個
+_____________________________________________________________
+4/28
+修復bug: 先吃金幣的時候，和兩種蘑菇的碰撞會失效
+(coin跟mario的碰撞判斷改到coin.cpp & super mushroom跟mario的碰撞判斷改到super_mushroom.cpp
+ 碰撞後的功能在touch...()內)
+
+修復bug: 踩死蘑菇後mario停留原地會死
+
+mario.cpp
+line 402 ~ 427
+跳起來碰到box brick可以隨機生成coin or fire flower or super mushroom且轉成normal brick
+
+gamebase.cpp
+關閉生成super mushroom
+
+--------------------------------------------------------------------------------------------------------------------------------
+4/27
+新增normalbrick的碰撞檢測
+normalbrick.cpp
+line 25-27:	新增getY function
+
+mario.cpp           (左右碰撞不知為何無法實現)
+line 185-231:	新增mario碰撞到normalbrick的四個方位分別的反應。
+line 233-272:   新增mario碰撞到stonebrick的四個方位分別的反應。
+line 274-313:   新增mario碰撞到waterpipe的四個方位分別的反應。
+
+gmaebase.cpp
+line 87-520:    完成場景設置(註解的部分請不要刪除)。
+line 549-550:   在視窗右上角顯示追蹤滑鼠鼠標在地圖上的座標。
+------------------------------------------------------------------------------------------------------
+4/26
+修復bug: mario踩死toxic mushroom後變小
+新增:點擊滑鼠左鍵時射出子彈 & 飛向點擊時的位置 & mario面向子彈飛行的方向
+(gamebase.cpp line 138 ~ 159)
+新增 class :broken brick & Box Brick
+
+bullet.cpp
+line34 ~ 36:碰到地板則消失(用原本的碰撞邏輯會卡死)
+line49 ~ 87:碰到Normal Brick & Stone Brick & broken brick & Box Brick則消失
+
+mario.h
+changeImage() 改為public
+
+------------------------------------------------------------------------------------------------------
+4/25
+mario.cpp
+line 230: 間隔1秒這樣下個timer才不會判斷到碰到toxic mushroom
+
+4/25
+mario.h
+line23:         新增直接使mario死亡的函數
+mario.cpp
+line 168~177:   跳躍碰到地面後回復姿勢
+line 281~289:   新增死亡畫面
+line 235~237:   碰到毒蘑菇後新增判斷死亡的函數
+## 使用maptoscene()的話，發現mario的y位置完全不對。所以判斷mario高度不要用畫面高度。 可以參考左上text的輸出:
+gamebase.cpp
+line 169:       新增檢查掉入洞的判斷
+
+------------------------------------------------------------------------------------------------------
+4/25
+bullet.h
+line 13 :constructor 新增參數direction(mario的方向)
+
+bullet.cpp
+line 6 ~ 10:面向右 -> 子彈向右飛
+                左         左
+
+gamebase.cpp
+line 146 :bullet的 x 從 +350 -> +250  & 多一個輸入參數direction
+
+mario.cpp
+line 219 ~ 229
+if : mario下降速度 > 0的話(代表此時還在空中，勢必會踩在toxic mushroom的頭上)
+呼叫  disappear()
+else 
+(if(time = 0) : -HP) & 變成小mario & 不能射子彈 & 計時2秒
+
+toxic_mushroom.h
+line 22: 新增function -> disappear()
+line 32 ~ 34: 速度的參數
+line 37: 新增bool值 disappear0 -> 用來判斷需不需要消失
+
+toxic_mushroom.cpp
+line 5 ~ 7: 速度參數初始化
+line 74 ~ 77: 掉進洞裡面
+line 79 ~ 81: 達成條件 -> 消失
+line 92 ~ 97:mario踩到頭後: 水平速度 = 0 & 圖片換成扁的 & 1秒後消失
+
+super_mushroom.h
+line 24 ~ 26: 速度的參數
+
+super_mushroom.cpp
+line 6 ~ 8: 速度參數初始化
+line 64 ~ 67: 掉進洞裡面
+
+-------------------------------------------------------------------------------------------------
+4/24
+bullet.cpp
+line 39 ~ 40 子彈和Toxic mushroom一起消失
+
+mario.h
+line 29 新增timerevent
+line 66 timerID : 設定timerevent的頻率
+line 67 time : 距離更新時間
+
+mario.cpp
+line 105 ~ 109 新增timerevent用來計算時間
+line 215 ~ 227 檢測碰到toxic mushroom 以及碰到後的反應
+目前先偵測整個且過2秒後才會再次反應
+mario變小還沒做
+
+toxic_mushroom.h
+line 23 ~ 24 新增timerevent
+line 32 timerID
+line 33 time
+
+toxic_mushroom.cpp
+line 50 & 48 新增條件:碰到後隔2秒才再次反彈
+line 74 ~ 78 新增timerevent用來計算時間
+
+
+------------------------------------------------------------------------------------------------
+4/23
+
+mario.h:
+1.新增判斷狀態的enum
+line9:
+enum action{stand,run1,run2,jump1,jump2,block,die};//站、跑、跳、被撞到、死掉
+enum direction{right,left,};
+int actionType[2]; //0:動作 1:方向
+
+2.新增轉換馬力歐圖片
+void changeImage();
+調整了一些參數的位置
+
+mario.cpp:
+1.調整按下鍵盤，放開鍵盤時的操作，新增設定馬力歐狀態
+ex.
+if (isMovingRight) {
+#################################
+    actionType[1]=R;
+    switch(actionType[0]){
+        case stand:
+            actionType[0]=run1;
+        break;
+        case run1:
+            actionType[0]=run2;
+        break;
+        default:
+            actionType[0]=stand;
+    }
+    changeImage();
+################################
+    moveBy(moveSpeed / 10, 0);
+    posX += moveSpeed / 10;
+}
+
+2.轉換圖片的呼叫現在固定由changeImage來執行
+
+4/24
+gamebase.h:
+line 50
+QLabel *lifeLabel; //生命值，現用於顯示mario的畫面座標
+
+gamebase.cpp:
+刪除了除錯按鈕，新增馬力歐生命顯示(lin35~42)
+修正火焰位置
+line 144~151
+QPointF marioScenePos = mario->mapToScene(mario->pos()); //將馬力歐位置找出來
+檢查邊界可以阻擋一次
+line 166
+mario.cpp/mario.h
+設定生命值hp
+lin35
+  int   hp;
+設定跳躍動作(落地時手會舉起來)
+
+
+
+
+
+
+
+
+
+
+
+
+
